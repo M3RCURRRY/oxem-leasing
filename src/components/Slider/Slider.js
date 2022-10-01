@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import styles from "./Slider.module.css";
 
 export default function Slider(props) {
-  let { title, notUsed, mark, minValue, maxValue } = props.data;
+  const { title, notUsed, mark, minValue, maxValue } = props.data;
 
   const inputRef = useRef(null);
 
