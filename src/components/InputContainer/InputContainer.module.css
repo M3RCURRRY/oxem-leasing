@@ -1,0 +1,4 @@
+.alignLabel {
+  display: flex;
+  flex-direction: column;
+}
