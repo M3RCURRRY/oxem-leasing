@@ -1,59 +1,91 @@
-import './App.css';
-import { sliderData } from './data/sliderData';
-import { useMedia } from './hooks/useMedia';
-import { useState } from "react";
-import Slider from './components/Slider/Slider';
-import MarkedSlider from './components/MarkedSlider/MarkedSlider';
+import "./App.css";
+import { sliderData } from "./data/sliderData";
+import { useReducer } from "react";
+import Slider from "./components/Slider/Slider";
+import MarkedSlider from "./components/MarkedSlider/MarkedSlider";
+
+const initialState = {
+  cost: sliderData.cost.value,
+  deposit: sliderData.cost.value * (parseInt(sliderData.deposit.mark) * 0.01),
+  percent: parseInt(sliderData.deposit.mark),
+  time: sliderData.time.value,
+};
+
+const SET_COST = "SET_COST";
+const SET_PERCENT = "SET_PERCENT";
+const SET_TIME = "SET_TIME";
+
+function reducer(state, action) {
+  switch (action.type) {
+    case SET_COST:
+      return {
+        ...state,
+        cost: action.payload,
+        deposit: Math.round(state.cost * (state.percent * 0.01)),
+      };
+    case SET_PERCENT:
+      return {
+        ...state,
+        percent: action.payload,
+        deposit: Math.round(state.cost * (action.payload * 0.01)),
+      };
+    case SET_TIME:
+      return {
+        ...state,
+        time: action.payload,
+      };
+  }
+}
 
 function App() {
-  const [cost, setCost] = useState(sliderData.cost.value);
-  const [deposit, setDeposit] = useState(sliderData.cost.value * (parseInt(sliderData.deposit.mark) * 0.01));
-  const [time, setTime] = useState(sliderData.time.value);
-
-  // Изменили проценты
-  // Заменили state (в процентах)
-  // Прокинули в качестве значения value результат calcDeposit
-  // Отрендерили
-
-  // Внутри компонента ищем пропс dependsOnMark
-  // Если true - делаем зависимость слайдера от mark
-  // 
-
-  const {xs, sm, md, lg} = useMedia();
-
-  const sliderHandler = (name, value) => {
-    switch(name) {
-      case "cost":
-        console.log("Cost updated");
-        setCost(value);
-        break;
-      case "deposit":
-        console.log("Deposit updated");
-        setDeposit(Math.round(cost * (value * 0.01)));
-        break;
-      case "time":
-        console.log("Time updated");
-        setTime(value);
-        break;
-      default:
-        break;
-    }
-  }
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <div className="app-layout">
       <div className="container">
         <div className="header">
-          <header className="header-font">Рассчитайте стоимость автомобиля в лизинг</header>
+          <header className="header-font">
+            Рассчитайте стоимость автомобиля в лизинг
+          </header>
         </div>
         <div className="lg-slider-first">
-          <Slider data={sliderData.cost} value={cost} name="cost" onChange={sliderHandler}/>
+          <Slider
+            title={sliderData.cost.title}
+            minValue={sliderData.cost.minValue}
+            maxValue={sliderData.cost.maxValue}
+            mark={sliderData.cost.mark}
+
+            value={state.cost}
+            actionType={SET_COST}
+
+            onChange={dispatch}
+          />
         </div>
         <div className="lg-slider-second">
-          <MarkedSlider data={sliderData.deposit} value={deposit} name="deposit" onChange={sliderHandler}/>
+          <MarkedSlider
+            title={sliderData.deposit.title}
+            minValue={sliderData.deposit.minValue}
+            maxValue={sliderData.deposit.maxValue}
+            
+            value={state.deposit}
+            actionType={SET_PERCENT}
+            percent={state.percent}
+
+            onChange={dispatch}
+          />
         </div>
         <div className="lg-slider-third">
-          <Slider data={sliderData.time} value={time} name="time" onChange={sliderHandler}/>
+          <Slider
+            title={sliderData.time.title}
+            minValue={sliderData.time.minValue}
+            maxValue={sliderData.time.maxValue}
+            mark={sliderData.time.mark}
+
+            value={state.time}
+            actionType={SET_TIME}
+
+            onChange={dispatch}
+          />
         </div>
       </div>
     </div>
