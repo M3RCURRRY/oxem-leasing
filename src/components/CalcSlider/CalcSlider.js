@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 
-import styles from "./MarkedSlider.module.css";
+import styles from "./CalcSlider.module.css";
 
 export default function MarkedSlider(props) {
   const inputRef = useRef(null);

@@ -2,7 +2,7 @@ import "./App.css";
 import { sliderData } from "./data/sliderData";
 import { useReducer } from "react";
 import Slider from "./components/Slider/Slider";
-import MarkedSlider from "./components/MarkedSlider/MarkedSlider";
+import MarkedSlider from "./components/CalcSlider/CalcSlider";
 
 const initialState = {
   cost: sliderData.cost.value,
