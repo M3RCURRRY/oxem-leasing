@@ -1,19 +1,19 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import styles from "./Slider.module.css";
 
-export default function Slider(props) {
-  const { title, value, mark, minValue, maxValue, isOutlinedMark } = props.data;
+export default function MarkedSlider(props) {
+  let { title, notUsed, mark, minValue, maxValue } = props.data;
 
-  const [state, setState] = useState(parseInt(value));
+  const [state, setState] = useState(parseInt(mark));
   const inputRef = useRef(null);
 
   useLayoutEffect(() => {
-    inputRef.current.style.backgroundSize = (value - minValue) * 100 / (maxValue - minValue) + "% 100%"
+    inputRef.current.style.backgroundSize = (props.value - minValue) * 100 / (maxValue - minValue) + "% 100%"
   }, []);
 
   function changeHandler(e) {
     setState(e.target.value);
-    inputRef.current.style.backgroundSize = (e.target.value - minValue) * 100 / (maxValue - minValue) + "% 100%"
+    props.onChange(props.name, e.target.value);
+    inputRef.current.style.backgroundSize = (props.value - minValue) * 100 / (maxValue - minValue) + "% 100%"
   }
 
   return (
@@ -22,7 +22,7 @@ export default function Slider(props) {
       <div className={styles.sliderContainer}>
         <div className={styles.valueLayout}>
           <span id="value">{state}</span>
-          <span id="mark" className={isOutlinedMark ? styles.outlinedMark : null} >{mark}</span>
+          <span id="mark" className={styles.outlinedMark } >{mark}</span>
         </div>
         <input
           type="range"

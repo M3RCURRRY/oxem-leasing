@@ -2,7 +2,7 @@ import './App.css';
 import { sliderData } from './data/sliderData';
 import { useMedia } from './hooks/useMedia';
 import { useState } from "react";
-import Slider from './inputs/Slider/Slider';
+import Slider from './components/Slider/Slider';
 
 function App() {
 
@@ -10,17 +10,33 @@ function App() {
   const [deposit, setDeposit] = useState(sliderData.deposit.value);
   const [time, setTime] = useState(sliderData.time.value);
 
+  // Изменили проценты
+  // Заменили state (в процентах)
+  // Прокинули в качестве значения value результат calcDeposit
+  // Отрендерили
+
+  // Внутри компонента ищем пропс dependsOnMark
+  // Если true - делаем зависимость слайдера от mark
+  // 
+
+  function calcDeposit(cost, percent) {
+
+  }
+
   const {xs, sm, md, lg} = useMedia();
 
   const sliderHandler = (name, value) => {
     switch(name) {
       case "cost":
+        console.log("Cost updated");
         setCost(value);
         break;
       case "deposit":
+        console.log("Deposit updated");
         setDeposit(value);
         break;
       case "time":
+        console.log("Time updated");
         setTime(value);
         break;
       default:
@@ -35,13 +51,13 @@ function App() {
           <header className="header-font">Рассчитайте стоимость автомобиля в лизинг</header>
         </div>
         <div className="lg-slider-first">
-          <Slider data={sliderData.cost} name="cost" onChange={sliderHandler}/>
+          <Slider data={sliderData.cost} value={cost} name="cost" onChange={sliderHandler}/>
         </div>
         <div className="lg-slider-second">
-          <Slider data={sliderData.deposit} name="deposit" onChange={sliderHandler}/>
+          <Slider data={sliderData.deposit} dependsOnMark={true} value={deposit} name="deposit" onChange={sliderHandler}/>
         </div>
         <div className="lg-slider-third">
-          <Slider data={sliderData.time} name="time" onChange={sliderHandler}/>
+          <Slider data={sliderData.time} value={time} name="time" onChange={sliderHandler}/>
         </div>
       </div>
     </div>
