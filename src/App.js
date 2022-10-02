@@ -3,12 +3,35 @@ import { sliderData } from "./data/sliderData";
 import { useReducer } from "react";
 import Slider from "./components/Slider/Slider";
 import MarkedSlider from "./components/CalcSlider/CalcSlider";
+import ResultItem from "./components/ResultItem/ResultItem";
+import Button from "./components/Button/Button";
+
+const countMonthly = (cost, deposit, time) => {
+  return Math.round(
+    (cost - deposit) *
+    ((0.035 * Math.pow(1 + 0.035, time)) / (Math.pow(1 + 0.035, time) - 1))
+  );
+};
+
+const countFinalCost = (cost, deposit, time) => {
+  return Math.round(deposit + countMonthly(cost, deposit, time) * time);
+};
 
 const initialState = {
   cost: sliderData.cost.value,
   deposit: sliderData.cost.value * (parseInt(sliderData.deposit.mark) * 0.01),
   percent: parseInt(sliderData.deposit.mark),
   time: sliderData.time.value,
+  monthly: countMonthly(
+    sliderData.cost.value,
+    sliderData.cost.value * (parseInt(sliderData.deposit.mark) * 0.01),
+    sliderData.time.value
+  ),
+  finalCost: countFinalCost(
+    sliderData.cost.value,
+    sliderData.cost.value * (parseInt(sliderData.deposit.mark) * 0.01),
+    sliderData.time.value,
+  ),
 };
 
 const SET_COST = "SET_COST";
@@ -21,24 +44,34 @@ function reducer(state, action) {
       return {
         ...state,
         cost: action.payload,
-        deposit: Math.round(state.cost * (state.percent * 0.01)),
+        deposit: Math.round(action.payload * (state.percent * 0.01)),
+        finalCost: countFinalCost(action.payload, Math.round(action.payload * (state.percent * 0.01)), state.time),
+        monthly: countMonthly(action.payload, Math.round(action.payload * (state.percent * 0.01)), state.time)
       };
     case SET_PERCENT:
       return {
         ...state,
         percent: action.payload,
         deposit: Math.round(state.cost * (action.payload * 0.01)),
+        finalCost: countFinalCost(state.cost, Math.round(state.cost * (action.payload * 0.01)), state.time),
+        monthly: countMonthly(state.cost, Math.round(state.cost * (action.payload * 0.01)), state.time)
       };
     case SET_TIME:
       return {
         ...state,
         time: action.payload,
+        finalCost: countFinalCost(state.cost, Math.round(state.cost * (state.percent * 0.01)), action.payload),
+        monthly: countMonthly(state.cost, Math.round(state.cost * (state.percent * 0.01)), action.payload)
       };
   }
 }
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const postHandler = () => {
+    console.log(JSON.stringify(state, null, 2));
+  }
 
   return (
     <div className="app-layout">
@@ -54,10 +87,8 @@ function App() {
             minValue={sliderData.cost.minValue}
             maxValue={sliderData.cost.maxValue}
             mark={sliderData.cost.mark}
-
             value={state.cost}
             actionType={SET_COST}
-
             onChange={dispatch}
           />
         </div>
@@ -66,11 +97,9 @@ function App() {
             title={sliderData.deposit.title}
             minValue={sliderData.deposit.minValue}
             maxValue={sliderData.deposit.maxValue}
-            
             value={state.deposit}
             actionType={SET_PERCENT}
             percent={state.percent}
-
             onChange={dispatch}
           />
         </div>
@@ -80,12 +109,27 @@ function App() {
             minValue={sliderData.time.minValue}
             maxValue={sliderData.time.maxValue}
             mark={sliderData.time.mark}
-
             value={state.time}
             actionType={SET_TIME}
-
             onChange={dispatch}
           />
+        </div>
+        <div className="lg-result-first">
+          <ResultItem
+            title={sliderData.finalCost.title}
+            mark={sliderData.finalCost.mark}
+            value={state.finalCost}
+          />
+        </div>
+        <div className="lg-result-second">
+          <ResultItem
+            title={sliderData.monthly.title}
+            mark={sliderData.monthly.mark}
+            value={state.monthly}
+          />
+        </div>
+        <div className="lg-button alignCenter">
+          <Button content={"Оставить заявку"} onClick={postHandler} isDisabled={false}/>
         </div>
       </div>
     </div>
