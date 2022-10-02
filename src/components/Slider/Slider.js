@@ -13,12 +13,23 @@ export default function Slider(props) {
     props.onChange({type: props.actionType, payload: e.target.value});
   }
 
+  function formatData(num) {
+    let digits = String(num).split('').reverse();
+    return digits.reduce((acc, value, index) => {
+      acc += value;
+      if ((index + 1) % 3 === 0) {
+        acc += " "
+      };
+      return acc;
+    }, "").split("").reverse().join("");
+  }
+
   return (
     <div className={styles.inputLayout}>
       <span className={styles.title}>{props.title}</span>
       <div className={styles.sliderContainer}>
         <div className={styles.valueLayout}>
-          <span id="value">{props.value}</span>
+          <span id="value">{formatData(props.value)}</span>
           <span id="mark">{props.mark}</span>
         </div>
         <input

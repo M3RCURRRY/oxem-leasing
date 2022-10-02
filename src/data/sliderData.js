@@ -19,6 +19,23 @@ const sliderData = {
     mark: "мес.",
     minValue: 1,
     maxValue: 60
+  },
+  finalCost: {
+    title: "Сумма договора лизинга",
+    mark: "₽"
+  },
+  monthly: {
+    title: "Ежемесячный платеж от",
+    mark: "₽"
+  }
+}
+
+const variants = {
+  passive: {
+    bgColor: "#FF9514"
+  },
+  hover: {
+    
   }
 }
 
