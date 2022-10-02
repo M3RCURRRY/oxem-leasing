@@ -23,10 +23,9 @@
 }
 
 .active:active {
-  background-color: #575757 !important;
+  background-color: #575757;
 }
 
 .disabled {
-  background-color: #FF9514;
   opacity: 0.4;
 }
