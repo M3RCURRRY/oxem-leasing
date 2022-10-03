@@ -1,12 +1,22 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
+import useActive from "../../hooks/useActive";
 import styles from "./Slider.module.css";
+
+const styledContainer = {
+  backgroundColor: "transparent"
+}
 
 export default function Slider(props) {
   const inputRef = useRef(null);
+  const valueRef = useRef(null);
+  const containerRef = useRef(null);
+  const uniqueId = useId();
+
+  const focusedElement = useActive();
 
   useEffect(() => {
-    inputRef.current.style.backgroundSize = ((props.value - props.minValue) * 100 / (props.maxValue - props.minValue)) + "% 100%"
-  }, []);
+    inputRef.current.style.backgroundSize = Math.round((props.value - props.minValue) * 100 / (props.maxValue - props.minValue)) + "% 100%";
+  })
 
   function changeHandler(e) {
     inputRef.current.style.backgroundSize = Math.round((props.value - props.minValue) * 100 / (props.maxValue - props.minValue)) + "% 100%"    
@@ -24,13 +34,28 @@ export default function Slider(props) {
     }, "").split("").reverse().join("");
   }
 
+  function editHandler(e) {
+    const newValue = +(e.target.value.split(" ").join(""));
+    console.log(newValue);
+    if (Number.isNaN(newValue)) {
+      
+    }
+    else if (newValue > props.maxValue || newValue < props.minValue) {
+      const limited = (newValue > props.maxValue) ? props.maxValue : props.minValue;
+      props.onChange({type: props.actionType, payload: limited})
+    }
+    else {
+      props.onChange({type: props.actionType, payload: newValue});
+    }
+  }
+
   return (
     <div className={styles.inputLayout}>
       <span className={styles.title}>{props.title}</span>
-      <div className={styles.sliderContainer}>
+      <div className={`${styles.sliderContainer} ` + (focusedElement.id === uniqueId ? styles.focusedSlider : null) } ref={containerRef}>
         <div className={styles.valueLayout}>
-          <span id="value">{formatData(props.value)}</span>
-          <span id="mark">{props.mark}</span>
+          <input type="text" size="8" onChange={(e) => editHandler(e)} id={uniqueId} value={formatData(props.value)}></input>
+          <span>{props.mark}</span>
         </div>
         <input
           type="range"

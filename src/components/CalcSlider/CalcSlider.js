@@ -1,13 +1,13 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import styles from "./CalcSlider.module.css";
 
 export default function MarkedSlider(props) {
   const inputRef = useRef(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     inputRef.current.style.backgroundSize = (props.percent - props.minValue) * 100 / (props.maxValue - props.minValue) + "% 100%"
-  }, []);
+  });
 
   function changeHandler(e) {
     inputRef.current.style.backgroundSize = (props.percent - props.minValue) * 100 / (props.maxValue - props.minValue) + "% 100%";    
