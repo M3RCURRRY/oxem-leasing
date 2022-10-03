@@ -1,11 +1,11 @@
 import "./App.css";
 import { sliderData } from "./data/sliderData";
-import { useEffect, useReducer } from "react";
+import {  useReducer } from "react";
 import Slider from "./components/Slider/Slider";
 import MarkedSlider from "./components/CalcSlider/CalcSlider";
 import ResultItem from "./components/ResultItem/ResultItem";
 import Button from "./components/Button/Button";
-import axios from "axios"
+import axios from "axios";
 
 const countMonthly = (cost, deposit, time) => {
   return Math.round(
@@ -73,20 +73,22 @@ function App() {
   async function postHandler () {
     const data = JSON.stringify(state);
     
-    // await axios.post("https://eoj3r7f3r4ef6v4.m.pipedream.net", data, {
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   }
-    // })
+    await axios.post("https://eoj3r7f3r4ef6v4.m.pipedream.net", data, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).catch(e => {
+      console.error(e.response)
+    }).then()
 
     // delay immitation for testing loader spiner 
 
-    await new Promise((res, rej) => {
-      setTimeout(() => {
-        console.log(JSON.stringify(state, null, 2))
-        res(1);
-      }, 1000);
-    })
+    // await new Promise((res, rej) => {
+    //   setTimeout(() => {
+    //     console.log(JSON.stringify(state, null, 2))
+    //     res(1);
+    //   }, 1000);
+    // })
   }
 
   return (

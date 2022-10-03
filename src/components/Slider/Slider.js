@@ -2,13 +2,8 @@ import { useEffect, useId, useRef } from "react";
 import useActive from "../../hooks/useActive";
 import styles from "./Slider.module.css";
 
-const styledContainer = {
-  backgroundColor: "transparent"
-}
-
 export default function Slider(props) {
   const inputRef = useRef(null);
-  const valueRef = useRef(null);
   const containerRef = useRef(null);
   const uniqueId = useId();
 
