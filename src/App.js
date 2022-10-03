@@ -97,7 +97,7 @@ function App() {
             Рассчитайте стоимость автомобиля в лизинг
           </header>
         </div>
-        <div className="lg-slider-first">
+        <div className="slider-first">
           <Slider
             title={sliderData.cost.title}
             minValue={sliderData.cost.minValue}
@@ -108,7 +108,7 @@ function App() {
             onChange={dispatch}
           />
         </div>
-        <div className="lg-slider-second">
+        <div className="slider-second">
           <MarkedSlider
             title={sliderData.deposit.title}
             minValue={sliderData.deposit.minValue}
@@ -119,7 +119,7 @@ function App() {
             onChange={dispatch}
           />
         </div>
-        <div className="lg-slider-third">
+        <div className="slider-third">
           <Slider
             title={sliderData.time.title}
             minValue={sliderData.time.minValue}
@@ -130,21 +130,21 @@ function App() {
             onChange={dispatch}
           />
         </div>
-        <div className="lg-result-first">
+        <div className="result-first">
           <ResultItem
             title={sliderData.finalCost.title}
             mark={sliderData.finalCost.mark}
             value={state.finalCost}
           />
         </div>
-        <div className="lg-result-second">
+        <div className="result-second">
           <ResultItem
             title={sliderData.monthly.title}
             mark={sliderData.monthly.mark}
             value={state.monthly}
           />
         </div>
-        <div className="lg-button alignCenter">
+        <div className="grid-button alignCenter">
           <Button content={"Оставить заявку"} onClick={postHandler} isDisabled={false}/>
         </div>
       </div>
