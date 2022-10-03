@@ -5,6 +5,7 @@ import Slider from "./components/Slider/Slider";
 import MarkedSlider from "./components/CalcSlider/CalcSlider";
 import ResultItem from "./components/ResultItem/ResultItem";
 import Button from "./components/Button/Button";
+import axios from "axios"
 
 const countMonthly = (cost, deposit, time) => {
   return Math.round(
@@ -69,8 +70,23 @@ function reducer(state, action) {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const postHandler = () => {
-    console.log(JSON.stringify(state, null, 2));
+  async function postHandler () {
+    const data = JSON.stringify(state);
+    
+    // await axios.post("https://eoj3r7f3r4ef6v4.m.pipedream.net", data, {
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   }
+    // })
+
+    // delay immitation for testing loader spiner 
+
+    await new Promise((res, rej) => {
+      setTimeout(() => {
+        console.log(JSON.stringify(state, null, 2))
+        res(1);
+      }, 1000);
+    })
   }
 
   return (
