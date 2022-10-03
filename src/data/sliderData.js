@@ -30,13 +30,4 @@ const sliderData = {
   }
 }
 
-const variants = {
-  passive: {
-    bgColor: "#FF9514"
-  },
-  hover: {
-    
-  }
-}
-
 export {sliderData};
