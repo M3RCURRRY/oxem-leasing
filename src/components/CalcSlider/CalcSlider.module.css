@@ -29,6 +29,10 @@
   box-sizing: border-box;
 }
 
+.inactiveSlider {
+  opacity: 0.4;
+}
+
 .valueLayout {
   display: flex;
   flex-direction: row;

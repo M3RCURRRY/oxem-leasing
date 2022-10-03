@@ -16,7 +16,7 @@ export default function Button(props) {
       onClick={!props.isDisabled ? clickHandler : null}
       className={
         `${styles.button} ` +
-        (props.isDisabled ? `${styles.disabled}` : `${styles.active}`)
+        (props.isDisabled ? `${styles.disabled}` : isPending ? null : `${styles.active}`) 
       }
     >
       {isPending ? <Spinner/> : props.content}

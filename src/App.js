@@ -1,11 +1,11 @@
 import "./App.css";
 import { sliderData } from "./data/sliderData";
-import {  useReducer } from "react";
+import {  useReducer, useState } from "react";
 import Slider from "./components/Slider/Slider";
-import MarkedSlider from "./components/CalcSlider/CalcSlider";
 import ResultItem from "./components/ResultItem/ResultItem";
 import Button from "./components/Button/Button";
 import axios from "axios";
+import CalcSlider from "./components/CalcSlider/CalcSlider";
 
 const countMonthly = (cost, deposit, time) => {
   return Math.round(
@@ -68,27 +68,34 @@ function reducer(state, action) {
 }
 
 function App() {
+  const [isBlocked, setBlocked] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   async function postHandler () {
-    const data = JSON.stringify(state);
-    
-    await axios.post("https://eoj3r7f3r4ef6v4.m.pipedream.net", data, {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).catch(e => {
-      console.error(e.response)
-    }).then()
+    setBlocked(true);
+
+    const data = JSON.stringify(state);    
+    console.log(JSON.stringify(data, null, 2));
+
+    // await axios.post("https://eoj3r7f3r4ef6v4.m.pipedream.net/", data, {
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   }
+    // }).catch(e => {
+    //   console.error(e.response)
+    // })
+
 
     // delay immitation for testing loader spiner 
 
-    // await new Promise((res, rej) => {
-    //   setTimeout(() => {
-    //     console.log(JSON.stringify(state, null, 2))
-    //     res(1);
-    //   }, 1000);
-    // })
+    await new Promise((res, rej) => {
+      setTimeout(() => {
+        console.log(JSON.stringify(state, null, 2))
+        res(1);
+      }, 2000);
+    })
+
+    setBlocked(false);    
   }
 
   return (
@@ -107,17 +114,19 @@ function App() {
             mark={sliderData.cost.mark}
             value={state.cost}
             actionType={SET_COST}
+            isDisabled={isBlocked}
             onChange={dispatch}
           />
         </div>
         <div className="slider-second">
-          <MarkedSlider
+          <CalcSlider
             title={sliderData.deposit.title}
             minValue={sliderData.deposit.minValue}
             maxValue={sliderData.deposit.maxValue}
             value={state.deposit}
             actionType={SET_PERCENT}
             percent={state.percent}
+            isDisabled={isBlocked}
             onChange={dispatch}
           />
         </div>
@@ -129,6 +138,7 @@ function App() {
             mark={sliderData.time.mark}
             value={state.time}
             actionType={SET_TIME}
+            isDisabled={isBlocked}
             onChange={dispatch}
           />
         </div>
@@ -147,8 +157,14 @@ function App() {
           />
         </div>
         <div className="grid-button alignCenter">
-          <Button content={"Оставить заявку"} onClick={postHandler} isDisabled={false}/>
+          <Button content={"Оставить заявку"} onClick={postHandler} isDisabled={isBlocked}/>
         </div>
+      </div>
+      <div className="">
+
+      </div>
+      <div className="">
+
       </div>
     </div>
   );

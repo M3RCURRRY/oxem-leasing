@@ -31,7 +31,6 @@ export default function Slider(props) {
 
   function editHandler(e) {
     const newValue = +(e.target.value.split(" ").join(""));
-    console.log(newValue);
     if (Number.isNaN(newValue)) {
       
     }
@@ -47,9 +46,9 @@ export default function Slider(props) {
   return (
     <div className={styles.inputLayout}>
       <span className={styles.title}>{props.title}</span>
-      <div className={`${styles.sliderContainer} ` + (focusedElement.id === uniqueId ? styles.focusedSlider : null) } ref={containerRef}>
+      <div className={`${styles.sliderContainer} ` + (focusedElement.id === uniqueId && !props.isDisabled ? styles.focusedSlider : props.isDisabled ? styles.inactiveSlider : null) } ref={containerRef}>
         <div className={styles.valueLayout}>
-          <input type="text" size="8" onChange={(e) => editHandler(e)} id={uniqueId} value={formatData(props.value)}></input>
+          <input type="text" size="8" onChange={props.isDisabled ? null : (e) => editHandler(e)} id={uniqueId} value={formatData(props.value)}></input>
           <span>{props.mark}</span>
         </div>
         <input
@@ -59,7 +58,7 @@ export default function Slider(props) {
           id="range"
           value={props.value}
           ref={inputRef}
-          onChange={(e) => changeHandler(e)}
+          onChange={props.isDisabled ? null : (e) => changeHandler(e)}
         ></input>
       </div>
     </div>

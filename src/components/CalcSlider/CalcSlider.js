@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 import styles from "./CalcSlider.module.css";
 
-export default function MarkedSlider(props) {
+export default function CalcSlider(props) {
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function MarkedSlider(props) {
   return (
     <div className={styles.inputLayout}>
       <span className={styles.title}>{props.title}</span>
-      <div className={styles.sliderContainer}>
+      <div className={`${styles.sliderContainer} ` + (props.isDisabled ? styles.inactiveSlider : null)}>
         <div className={styles.valueLayout}>
           <span id="value">{formatData(props.value) + " ₽" }</span>
           <span id="mark" className={styles.outlinedMark } >{props.percent + " %"}</span>
@@ -40,7 +40,7 @@ export default function MarkedSlider(props) {
           id="range"
           value={props.percent}
           ref={inputRef}
-          onChange={(e) => changeHandler(e)}
+          onChange={props.isDisabled ? null : (e) => changeHandler(e)}
         ></input>
       </div>
     </div>

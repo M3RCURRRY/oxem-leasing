@@ -29,6 +29,10 @@
   box-sizing: border-box;
 }
 
+.inactiveSlider {
+  opacity: 0.4;
+}
+
 .focusedSlider {
   background-color: transparent !important;
   box-shadow: 0px 0px 0px 2px #F3F3F4 inset;
