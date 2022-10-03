@@ -107,6 +107,10 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .valueLayout > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   font-size: 30px;
   font-family: "Gilroy";
   font-weight: 800;
@@ -182,4 +186,28 @@ input[type="range"]::-ms-track {
   font-size: 20px !important;
 
   background-color: #EBEBEC;
+}
+
+@media screen and (max-width: 767px) {
+  .title {
+    font-size: 14px;
+    line-height: 136%;
+  }
+
+  .valueLayout {
+    line-height: 20px;
+  }
+
+  .valueLayout > input {
+    font-size: 22px;
+  }
+
+  .valueLayout > span {
+    font-size: 22px;
+  }
+
+  .outlinedMark {
+    padding: 10px 12px;
+    margin: -5px;
+  }
 }

@@ -1,6 +1,6 @@
 import "./App.css";
 import { sliderData } from "./data/sliderData";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import Slider from "./components/Slider/Slider";
 import MarkedSlider from "./components/CalcSlider/CalcSlider";
 import ResultItem from "./components/ResultItem/ResultItem";
