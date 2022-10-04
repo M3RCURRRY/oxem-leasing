@@ -64,6 +64,8 @@ function reducer(state, action) {
         finalCost: countFinalCost(state.cost, Math.round(state.cost * (state.percent * 0.01)), action.payload),
         monthly: countMonthly(state.cost, Math.round(state.cost * (state.percent * 0.01)), action.payload)
       };
+    default:
+      break;
   }
 }
 
