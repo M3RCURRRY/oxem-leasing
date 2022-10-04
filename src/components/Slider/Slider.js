@@ -10,45 +10,71 @@ export default function Slider(props) {
   const focusedElement = useActive();
 
   useEffect(() => {
-    inputRef.current.style.backgroundSize = Math.round((props.value - props.minValue) * 100 / (props.maxValue - props.minValue)) + "% 100%";
-  })
+    inputRef.current.style.backgroundSize =
+      Math.round(
+        ((props.value - props.minValue) * 100) /
+          (props.maxValue - props.minValue)
+      ) + "% 100%";
+  });
 
   function changeHandler(e) {
-    inputRef.current.style.backgroundSize = Math.round((props.value - props.minValue) * 100 / (props.maxValue - props.minValue)) + "% 100%"    
-    props.onChange({type: props.actionType, payload: e.target.value});
+    inputRef.current.style.backgroundSize =
+      Math.round(
+        ((props.value - props.minValue) * 100) /
+          (props.maxValue - props.minValue)
+      ) + "% 100%";
+    props.onChange({ type: props.actionType, payload: e.target.value });
   }
 
   function formatData(num) {
-    let digits = String(num).split('').reverse();
-    return digits.reduce((acc, value, index) => {
-      acc += value;
-      if ((index + 1) % 3 === 0) {
-        acc += " "
-      };
-      return acc;
-    }, "").split("").reverse().join("");
+    let digits = String(num).split("").reverse();
+    return digits
+      .reduce((acc, value, index) => {
+        acc += value;
+        if ((index + 1) % 3 === 0) {
+          acc += " ";
+        }
+        return acc;
+      }, "")
+      .split("")
+      .reverse()
+      .join("");
   }
 
   function editHandler(e) {
-    const newValue = +(e.target.value.split(" ").join(""));
+    const newValue = +e.target.value.split(" ").join("");
     if (Number.isNaN(newValue)) {
-      
-    }
-    else if (newValue > props.maxValue || newValue < props.minValue) {
-      const limited = (newValue > props.maxValue) ? props.maxValue : props.minValue;
-      props.onChange({type: props.actionType, payload: limited})
-    }
-    else {
-      props.onChange({type: props.actionType, payload: newValue});
+    } else if (newValue > props.maxValue || newValue < props.minValue) {
+      const limited =
+        newValue > props.maxValue ? props.maxValue : props.minValue;
+      props.onChange({ type: props.actionType, payload: limited });
+    } else {
+      props.onChange({ type: props.actionType, payload: newValue });
     }
   }
 
   return (
     <div className={styles.inputLayout}>
       <span className={styles.title}>{props.title}</span>
-      <div className={`${styles.sliderContainer} ` + (focusedElement.id === uniqueId && !props.isDisabled ? styles.focusedSlider : props.isDisabled ? styles.inactiveSlider : null) } ref={containerRef}>
+      <div
+        className={
+          `${styles.sliderContainer} ` +
+          (focusedElement.id === uniqueId && !props.isDisabled
+            ? styles.focusedSlider
+            : props.isDisabled
+            ? styles.inactiveSlider
+            : null)
+        }
+        ref={containerRef}
+      >
         <div className={styles.valueLayout}>
-          <input type="text" size="8" onChange={props.isDisabled ? null : (e) => editHandler(e)} id={uniqueId} value={formatData(props.value)}></input>
+          <input
+            type="text"
+            size="8"
+            onChange={props.isDisabled ? null : (e) => editHandler(e)}
+            id={uniqueId}
+            value={formatData(props.value)}
+          ></input>
           <span>{props.mark}</span>
         </div>
         <input
