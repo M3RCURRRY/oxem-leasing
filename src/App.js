@@ -74,26 +74,24 @@ function App() {
   async function postHandler () {
     setBlocked(true);
 
-    const data = JSON.stringify(state);    
-    console.log(JSON.stringify(data, null, 2));
+    const data = JSON.stringify(state);
 
-    // await axios.post("https://eoj3r7f3r4ef6v4.m.pipedream.net/", data, {
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   }
-    // }).catch(e => {
-    //   console.error(e.response)
-    // })
-
+    await axios.post("https://eoj3r7f3r4ef6v4.m.pipedream.net/", data, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).catch(e => {
+      console.error(e.response)
+    })
 
     // delay immitation for testing loader spiner 
 
-    await new Promise((res, rej) => {
-      setTimeout(() => {
-        console.log(JSON.stringify(state, null, 2))
-        res(1);
-      }, 2000);
-    })
+    // await new Promise((res, rej) => {
+    //   setTimeout(() => {
+    //     console.log(JSON.stringify(state, null, 2))
+    //     res(1);
+    //   }, 2000);
+    // })
 
     setBlocked(false);    
   }
